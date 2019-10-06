@@ -1,0 +1,262 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Calculator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link href="~/css/calculatorPage.css" rel="stylesheet" />
+  
+</head>
+<body>
+
+
+    <div id="errors" class="alert alert-danger" style="display:none;"></div>
+
+    <table class="table-overrides" id="computings">
+        <thead><tr><th></th><th></th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <div>
+        <form name="userForm" class="main_place">
+            <input type="hidden" name="id" value="0" />
+            <div class="form-group">
+                <label for="expression"></label>
+                <input class="form-control" id="expression" name="expression" autocomplete="off" />
+            </div>
+         
+            <div id="button-list">
+                <ul class="button-items">
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('sqrt(')">&#8730;(x)</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('nsqrt(')"><sup>y</sup>&#8730;(x)</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="reset()">C</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('*')">x</button>
+                    </li>
+                </ul>
+                <ul class="button-items">
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(1)">1</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(2)">2</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(3)">3</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('/')">&divide;</button>
+                    </li>
+                </ul>
+                <ul class="button-items">
+                    <li>
+                        <button type="button" class="number-button"onclick="addElement(4)">4</button>
+                    </li>
+                    <li>
+                        <button type="button"class="number-button" onclick="addElement(5)">5</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button"onclick="addElement(6)">6</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('-')">-</button>
+                    </li>
+                </ul>
+                <ul class="button-items">
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(7)">7</button>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(8)">8</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(9)">9</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button"  onclick="addElement('+')">+</button>
+                    </li>
+                </ul>
+                <ul class="button-items">
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('^')">x<sup>y</sup></button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(0)">0</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('.')">.</button>
+                    </li>
+                    <li>
+                        <button type="submit" class="number-button">=</button>
+                    </li>
+                </ul>
+            </div>
+        </form>
+
+
+    </div>
+    <button class="btn btn-sm" id="logout">
+        <a asp-action="Logout" asp-controller="Account">Logout</a>
+    </button>
+
+    <script>
+
+        // Getting all calculations
+        function GetComputings() {
+            $.ajax({
+                url: '/Computing/GetComputings',
+                type: 'GET',
+                contentType: "application/json",
+                success: function (computings) {
+                    var rows = "";
+                    $.each(computings, function (index, computing) {
+                        rows += row(computing);
+                    })
+
+                    $("table tbody").append(rows);
+
+                }
+            });
+        }
+        function GetComputing(id) {
+            $.ajax({
+                url: '/Computing/GetComputing/' + id,
+                type: 'GET',
+                contentType: "application/json",
+                success: function (computing) {
+                    var form = document.forms["userForm"];
+                    form.elements["id"].value = computing.id;
+                    form.elements["expression"].value = computing.expression;
+                }
+            });
+        }
+
+
+        function ComputingCreate(userExpression) {
+            $.ajax({
+                url: "/Computing/ComputingCreate",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    expression: userExpression,
+                }),
+                success: function (computing) {
+                    reset();
+                    writeResult(computing.outcome);
+
+                    $("table tbody").append(row(computing));
+                },
+                error: function (jxqr, error, status) {
+                    console.log(jxqr);
+                    if (jxqr.responseText === "") {
+                        $('#errors').append("<h3>" + jxqr.statusText + "</h3>");
+                    }
+                    else {
+                        var response = JSON.parse(jxqr.responseText);
+                        // добавляем общие ошибки модели
+                        if (response['']) {
+
+                            $.each(response[''], function (index, item) {
+                                $('#errors').append("<p>" + item + "</p>");
+                            });
+                        }
+                        // добавляем ошибки свойства Expression
+                        if (response['Expression']) {
+
+                            $.each(response['Expression'], function (index, item) {
+                                $('#errors').append("<p>" + item + "</p>");
+                            });
+                        }
+                    }
+
+                    $('#errors').show();
+                }
+            })
+        }
+
+
+        function DeleteComputing(id) {
+            $.ajax({
+                url: "/Computing/DeleteComputing/" + id,
+                contentType: "application/json",
+                method: "DELETE",
+                success: function (computing) {
+                    $("tr[data-rowid='" + computing.id + "']").remove();
+                }
+            })
+        }
+
+        var row = function (computing) {
+            return "<tr data-rowid='" + computing.id + "'>" +
+                "<td><button class='removeLink btn btn-sm btn-primary' data-id='" + computing.id + "'>Delete</button>" +
+                "<button class='editLink btn btn-sm btn-primary' data-id='" + computing.id + "'>Edit</button> </td > " +
+                "<td>" + computing.expression + " = " + computing.outcome + "</td></tr>";
+        }
+
+        function addElement(item) {
+            var form = document.forms["userForm"];
+            form.elements["expression"].value += item;
+        }
+        function editComputing(item) {
+            var form = document.forms["userForm"];
+            form.reset();
+            form.elements["expression"].value = item;
+        }
+
+        function reset() {
+            var form = document.forms["userForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+
+
+        function writeResult(outcome) {
+            var form = document.forms["userForm"];
+            form.elements["expression"].value = outcome;
+        }
+
+        $("#reset").click(function (e) {
+            e.preventDefault();
+            reset();
+        })
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            $('#errors').empty();
+            $('#errors').hide();
+            var id = this.elements["id"].value;
+            var expression = this.elements["expression"].value;
+            if (id == 0)
+                ComputingCreate(expression);
+            else {
+                id == null;
+                ComputingCreate(expression);
+            }
+        });
+
+
+        $("body").on("click", ".editLink", function () {
+            var id = $(this).data("id");
+            GetComputing(id);
+        })
+
+        $("body").on("click", ".removeLink", function () {
+            var id = $(this).data("id");
+            DeleteComputing(id);
+        })
+
+        GetComputings();
+    </script>
+</body>
+</html>
