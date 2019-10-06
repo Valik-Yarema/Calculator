@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BAL.Managers
+namespace BAL.Services
 {
     public class Performance
     {

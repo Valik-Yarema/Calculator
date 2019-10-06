@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BAL.Managers;
 
-namespace BAL.Managers
+namespace BAL.Services
 {
     public class ComputingModule
     {
@@ -12,7 +13,7 @@ namespace BAL.Managers
 
         public double CountOperation(string input)
         {
-            AddSpaseToOperation(ref input);
+            AddSpaceToOperation(ref input);
 
             string[] numbers = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
 
@@ -22,7 +23,7 @@ namespace BAL.Managers
             action.Clear();
             return output;
         }
-        private void AddSpaseToOperation(ref string input)
+        private void AddSpaceToOperation(ref string input)
         {
             StringBuilder builder = new StringBuilder(input);
 
@@ -50,7 +51,7 @@ namespace BAL.Managers
 
             for (int i = 0; i < input.Length; i++)
             {
-                if (isDouble(input[i]))
+                if (IsDouble(input[i]))
                 {
                     if (action.Count == 0 && number.Count == 0)
                     {
@@ -126,7 +127,8 @@ namespace BAL.Managers
 
                     }
                 }
-                if (i == input.Length - 1)
+
+                if (i != input.Length - 1) continue;
                 {
                     if (number.Count > 1 && action.Count >= 1)
                     {
@@ -149,7 +151,7 @@ namespace BAL.Managers
             return number.Pop();
         }
 
-        private double ActionMath(string act, double a, double b = 0)
+        public double ActionMath(string act, double a, double b = 0)
         {
 
             switch (act)
@@ -170,23 +172,13 @@ namespace BAL.Managers
 
         private bool isBackBracket(string s)
         {
-            if (s == ")")
-            {
-                return true;
-            }
-
-            return false;
+            return s == ")";
         }
-        private bool isStartBracket(string s)
+        bool isStartBracket(string s)
         {
-            if (s == "(")
-            {
-                return true;
-            }
-
-            return false;
+            return s == "(";
         }
-        private bool isDouble(string s)
+        public bool IsDouble(string s)
         {
             try
             {
@@ -197,6 +189,7 @@ namespace BAL.Managers
             {
                 return false;
             }
+            return false;
         }
     }
 }

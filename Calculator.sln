@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "Interface\Interface.csproj", "{1AD947CA-F1DD-43C4-8409-94978A55FF73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAL.Tests", "BAL.Tests\BAL.Tests.csproj", "{CCA6A2FB-2D7F-42CE-8BDF-E2839124495B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1AD947CA-F1DD-43C4-8409-94978A55FF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AD947CA-F1DD-43C4-8409-94978A55FF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AD947CA-F1DD-43C4-8409-94978A55FF73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCA6A2FB-2D7F-42CE-8BDF-E2839124495B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCA6A2FB-2D7F-42CE-8BDF-E2839124495B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCA6A2FB-2D7F-42CE-8BDF-E2839124495B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCA6A2FB-2D7F-42CE-8BDF-E2839124495B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

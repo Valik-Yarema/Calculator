@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BAL.Services;
 
 namespace BAL.Managers
 {
     public class ComputingManager :BaseManager, IComputingManager
     {
-        private readonly ComputingModule computingModule=new ComputingModule();
+        private readonly ComputingModule _computingModule=new ComputingModule();
 
         public ComputingManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
@@ -35,7 +36,7 @@ namespace BAL.Managers
         public  async Task<ComputingViewModel> Insert(ComputingCreateViewModel model)
         {
             Computing computing = mapper.Map<ComputingCreateViewModel, Computing>(model);
-           computing.Outcome = computingModule.CountOperation(model.Expression);
+           computing.Outcome = _computingModule.CountOperation(model.Expression);
           
            await unitOfWork.ComputingsRepository.Insert(computing);
             unitOfWork.Save();
