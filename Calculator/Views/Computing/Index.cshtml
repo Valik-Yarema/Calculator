@@ -24,7 +24,7 @@
     </table>
 
     <div>
-        <form name="userForm" class="main_place">
+        <form name="userForm" class="main_place" id="userForm">
             <input type="hidden" name="id" value="0" />
             <div class="form-group">
                 <label for="expression"></label>
@@ -34,7 +34,7 @@
             <div id="button-list">
                 <ul class="button-items">
                     <li>
-                        <button type="button" class="number-button" onclick="addElement('sqrt(')">&#8730;(x)</button>
+                        <button type="button" class="number-button " onclick="addElement('sqrt(')">&#8730;(x)</button>
                     </li>
                     <li>
                         <button type="button" class="number-button" onclick="addElement('nsqrt(')"><sup>y</sup>&#8730;(x)</button>
@@ -151,38 +151,37 @@
                 data: JSON.stringify({
                     expression: userExpression,
                 }),
-                success: function (computing) {
+                success: function(computing) {
                     reset();
                     writeResult(computing.outcome);
 
                     $("table tbody").append(row(computing));
                 },
-                error: function (jxqr, error, status) {
+                error: function(jxqr, error, status) {
                     console.log(jxqr);
                     if (jxqr.responseText === "") {
                         $('#errors').append("<h3>" + jxqr.statusText + "</h3>");
-                    }
-                    else {
+                    } else {
                         var response = JSON.parse(jxqr.responseText);
-                        // добавляем общие ошибки модели
                         if (response['']) {
 
-                            $.each(response[''], function (index, item) {
-                                $('#errors').append("<p>" + item + "</p>");
-                            });
+                            $.each(response[''],
+                                function(index, item) {
+                                    $('#errors').append("<p>" + item + "</p>");
+                                });
                         }
-                        // добавляем ошибки свойства Expression
                         if (response['Expression']) {
 
-                            $.each(response['Expression'], function (index, item) {
-                                $('#errors').append("<p>" + item + "</p>");
-                            });
+                            $.each(response['Expression'],
+                                function(index, item) {
+                                    $('#errors').append("<p>" + item + "</p>");
+                                });
                         }
                     }
 
                     $('#errors').show();
                 }
-            })
+            });
         }
 
 
@@ -191,45 +190,46 @@
                 url: "/Computing/DeleteComputing/" + id,
                 contentType: "application/json",
                 method: "DELETE",
-                success: function (computing) {
+                success: function(computing) {
                     $("tr[data-rowid='" + computing.id + "']").remove();
                 }
-            })
+            });
         }
 
-        var row = function (computing) {
-            return "<tr data-rowid='" + computing.id + "'>" +
-                "<td><button class='removeLink btn btn-sm btn-primary' data-id='" + computing.id + "'>Delete</button>" +
-                "<button class='editLink btn btn-sm btn-primary' data-id='" + computing.id + "'>Edit</button> </td > " +
-                "<td>" + computing.expression + " = " + computing.outcome + "</td></tr>";
-        }
+        var row = function(computing) {
+            return "<tr data-rowid='" +computing.id +"'>" +
+                "<td><button class='removeLink btn btn-sm btn-primary' id='button-delete' data-id='" + computing.id +"'>Delete</button>" +
+                "<button class='editLink btn btn-sm btn-primary' id='button-delete' data-id='" + computing.id +"'>Edit</button> </td > " +
+                "<td>" +computing.expression + " = " +computing.outcome +"</td></tr>";
+        };
 
         function addElement(item) {
             var form = document.forms["userForm"];
             form.elements["expression"].value += item;
-        }
+        };
+
         function editComputing(item) {
             var form = document.forms["userForm"];
             form.reset();
             form.elements["expression"].value = item;
-        }
+        };
 
         function reset() {
             var form = document.forms["userForm"];
             form.reset();
             form.elements["id"].value = 0;
-        }
+        };
 
 
         function writeResult(outcome) {
             var form = document.forms["userForm"];
             form.elements["expression"].value = outcome;
-        }
+        };
 
-        $("#reset").click(function (e) {
+        $("#reset").click(function(e) {
             e.preventDefault();
             reset();
-        })
+        });
 
         $("form").submit(function (e) {
             e.preventDefault();
@@ -246,15 +246,19 @@
         });
 
 
-        $("body").on("click", ".editLink", function () {
-            var id = $(this).data("id");
-            GetComputing(id);
-        })
+        $("body").on("click",
+            ".editLink",
+            function() {
+                var id = $(this).data("id");
+                GetComputing(id);
+            });
 
-        $("body").on("click", ".removeLink", function () {
-            var id = $(this).data("id");
-            DeleteComputing(id);
-        })
+        $("body").on("click",
+            ".removeLink",
+            function() {
+                var id = $(this).data("id");
+                DeleteComputing(id);
+            });
 
         GetComputings();
     </script>

@@ -9,6 +9,7 @@
     background-image: -webkit-linear-gradient(top left, #EEEEEE, #B1B1B1);
     background-image: -moz-linear-gradient(top left, #EEEEEE, #B1B1B1);
     background-image: linear-gradient(to bottom right, #EEEEEE, #B1B1B1);
+    background-image: url('../images/whiteb.jpg');
 }
 
 .table-overrides {
@@ -25,20 +26,36 @@
         text-align: left;
         padding: 1px;
     }
-#logout{
-    margin:30px;
-    height:50px;
-    width:90px;
+#logout {
+    margin: 30px;
+    height: 50px;
+    width: 90px;
+    font-size: 16px;
+    background: #A29898;
 }
-#expression {
-    background-color: #f0f5f5;
-    padding: 10px;
-    height: 100px;
-   
+
+#logout a {
+        color: #403130;
+}
+#logout a:hover{
+    color: whitesmoke;
+}
+    #expression {
+        background-color: #f0f5f5;
+        padding: 10px;
+        height: 100px;
+    }
+#userForm {
+    background-color: #AAA;
+}
+
+#button-delete {
+    margin: 3px;
+    padding: 3px;
 }
 
 
-.button-items{
+.button-items {
     margin: 0;
     padding: 0;
     display: flex;
@@ -47,8 +64,8 @@
     list-style: none;
 }
 .number-button {
-    margin: 5px;
-    width: 90px;
+    margin: 0;
+    width: 100px;
     height: 40px;
     color: gray;
 }
