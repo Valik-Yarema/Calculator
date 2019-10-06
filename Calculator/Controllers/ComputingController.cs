@@ -38,8 +38,15 @@ namespace Calculator.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ComputingCreateViewModel model = new ComputingCreateViewModel() { Expression = inputModel.Expression, UserId = userId};
+            try
+            {
+                return await _computingManager.Insert(model);
+            }
+            catch (DivideByZeroException e)
+            {
+                return new ComputingViewModel(){Expression = e.Message + inputModel.Expression, Outcome = Double.NaN};
+            }
            
-            return await _computingManager.Insert(model);
         }
         [HttpGet("{id}")]
         public async Task<ComputingViewModel> GetComputing(Guid id)

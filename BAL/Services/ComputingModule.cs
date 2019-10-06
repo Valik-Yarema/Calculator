@@ -157,8 +157,18 @@ namespace BAL.Managers
                 case "+": return a + b;
                 case "-": return a - b;
                 case "*": return a * b;
-                case "/": return a / b;
-                case "%": return a % b;
+                case "/":
+                    if (b == 0)
+                    {
+                        throw new DivideByZeroException();
+                    }
+                    return a / b;
+                case "%":
+                    if (b == 0)
+                    {
+                        throw new DivideByZeroException();
+                    }
+                    return a % b;
                 case "sqrt": return Math.Sqrt(a);
                 case "pow": return Math.Pow(a,b);
                 case "nsqrt":return Math.Pow(b,( 1 / a));
