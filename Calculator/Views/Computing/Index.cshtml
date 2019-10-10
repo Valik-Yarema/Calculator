@@ -34,6 +34,17 @@
             <div id="button-list">
                 <ul class="button-items">
                     <li>
+                        <button type="button" class="number-button" onclick="addElement('(')">(</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement(')')">)</button>
+                    </li>
+                    <li>
+                        <button type="button" class="number-button" onclick="addElement('^')">x<sup>y</sup></button>
+                    </li>
+                </ul>
+                <ul class="button-items">
+                    <li>
                         <button type="button" class="number-button " onclick="addElement('sqrt(')">&#8730;(x)</button>
                     </li>
                     <li>
@@ -62,13 +73,13 @@
                 </ul>
                 <ul class="button-items">
                     <li>
-                        <button type="button" class="number-button"onclick="addElement(4)">4</button>
+                        <button type="button" class="number-button" onclick="addElement(4)">4</button>
                     </li>
                     <li>
-                        <button type="button"class="number-button" onclick="addElement(5)">5</button>
+                        <button type="button" class="number-button" onclick="addElement(5)">5</button>
                     </li>
                     <li>
-                        <button type="button" class="number-button"onclick="addElement(6)">6</button>
+                        <button type="button" class="number-button" onclick="addElement(6)">6</button>
                     </li>
                     <li>
                         <button type="button" class="number-button" onclick="addElement('-')">-</button>
@@ -76,7 +87,7 @@
                 </ul>
                 <ul class="button-items">
                     <li>
-                        <button type="button" class="number-button" onclick="addElement(7)">7</button>
+                    <button type="button" class="number-button" onclick="addElement(7)">7</button>
                     <li>
                         <button type="button" class="number-button" onclick="addElement(8)">8</button>
                     </li>
@@ -84,23 +95,23 @@
                         <button type="button" class="number-button" onclick="addElement(9)">9</button>
                     </li>
                     <li>
-                        <button type="button" class="number-button"  onclick="addElement('+')">+</button>
+                        <button type="button" class="number-button" onclick="addElement('+')">+</button>
                     </li>
                 </ul>
                 <ul class="button-items">
                     <li>
-                        <button type="button" class="number-button" onclick="addElement('^')">x<sup>y</sup></button>
+                        <button type="button" class="number-button" onclick="addElement('.')">.</button>
                     </li>
+                   
                     <li>
                         <button type="button" class="number-button" onclick="addElement(0)">0</button>
                     </li>
-                    <li>
-                        <button type="button" class="number-button" onclick="addElement('.')">.</button>
-                    </li>
+
                     <li>
                         <button type="submit" class="number-button">=</button>
                     </li>
                 </ul>
+
             </div>
         </form>
 

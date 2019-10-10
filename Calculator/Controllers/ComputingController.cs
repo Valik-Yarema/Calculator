@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace Calculator.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
     public class ComputingController : Controller
     {
         private readonly IComputingManager _computingManager;
@@ -28,7 +27,6 @@ namespace Calculator.Controllers
         public async Task<IEnumerable<ComputingViewModel>> GetComputings()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var items =await _computingManager.GetComputingUser(1, 20, userId);
             return await _computingManager.GetComputingUser(1, 20,userId);
         }
 

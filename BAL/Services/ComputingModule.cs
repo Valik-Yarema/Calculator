@@ -180,21 +180,13 @@ namespace BAL.Managers
 
         private bool isBackBracket(string s)
         {
-            if (s == ")")
-            {
-                return true;
-            }
-
-            return false;
+            return s == ")";
+           
         }
         private bool isStartBracket(string s)
         {
-            if (s == "(")
-            {
-                return true;
-            }
-
-            return false;
+            
+                return s == "(";
         }
         private bool isDouble(string s)
         {
