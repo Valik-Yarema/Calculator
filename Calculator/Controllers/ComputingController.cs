@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace Calculator.Controllers
 {
     [Authorize]
+    [Route("[controller]/[action]")]
     public class ComputingController : Controller
     {
         private readonly IComputingManager _computingManager;

@@ -15,7 +15,6 @@ namespace BAL.Managers
             AddSpaseToOperation(ref input);
 
             string[] numbers = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
-
             double output = ActionLogic(numbers);
 
             number.Clear();
@@ -83,7 +82,7 @@ namespace BAL.Managers
                             while (!isStartBracket(action.Peek().Operation))
                             {
 
-                                if (number.Count == 1 || action.Peek().Priority % 3 == 0)
+                                if (action.Peek().Priority % 3 == 0)
                                 {
                                     double a = number.Pop();
                                     number.Push(ActionMath(action.Pop().Operation, a));
@@ -128,21 +127,26 @@ namespace BAL.Managers
                 }
                 if (i == input.Length - 1)
                 {
-                    if (number.Count > 1 && action.Count >= 1)
+                   
+                    if (action.Count >= 1 )
                     {
                         do
                         {
-                            double b = number.Pop();
-                            double a = number.Pop();
-                            number.Push(ActionMath(action.Pop().Operation, a, b));
+                            if (action.Peek().Priority % 3 == 0)
+                            {
+                                double a = number.Pop();
+                                number.Push(ActionMath(action.Pop().Operation, a));
+                            }
+                            else
+                            {
 
+                                double b = number.Pop();
+                                double a = number.Pop();
+                                number.Push(ActionMath(action.Pop().Operation, a, b));
+                            }
                         } while (action.Count != 0);
                     }
-                    if (number.Count == 1 && action.Count == 1)
-                    {
-                        double a = number.Pop();
-                        number.Push(ActionMath(action.Pop().Operation, a));
-                    }
+                  
                 }
             }
 

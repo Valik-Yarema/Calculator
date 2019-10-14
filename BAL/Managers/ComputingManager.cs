@@ -38,7 +38,7 @@ namespace BAL.Managers
            computing.Outcome = computingModule.CountOperation(model.Expression);
           
            await unitOfWork.ComputingsRepository.Insert(computing);
-            unitOfWork.Save();
+           await unitOfWork.Save();
             return mapper.Map<Computing,ComputingViewModel>(computing);
         }
 
@@ -47,7 +47,7 @@ namespace BAL.Managers
             Computing comput = await unitOfWork.ComputingsRepository.GetById(item);
             if (comput == null) { return; }
             unitOfWork.ComputingsRepository.Delete(comput);
-            unitOfWork.Save();
+            await unitOfWork.Save();
         }
 
         public async Task<IEnumerable<ComputingViewModel>> GetAll(int page, int countOnPage)

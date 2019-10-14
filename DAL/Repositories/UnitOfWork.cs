@@ -1,6 +1,7 @@
 ﻿using Interface.InterfacesDAL;
 using Model.DB;
 using System;
+using System.Threading.Tasks;
 
 
 namespace DAL.Repositories
@@ -16,9 +17,9 @@ namespace DAL.Repositories
         }
 
 
-        public int Save()
+        public async Task<int> Save()
         {
-            return context.SaveChanges();
+            return await context.SaveChangesAsync();
         }
 
         private bool isDisposed = false;
@@ -30,7 +31,7 @@ namespace DAL.Repositories
                 return computingRepo;
             }
         }
-
+        
         public IBaseRepository<ApplicationUser> AppUsersRepository {
             get
             {
